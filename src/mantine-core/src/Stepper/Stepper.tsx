@@ -117,10 +117,12 @@ export const Stepper: StepperComponent = forwardRef<HTMLDivElement, StepperProps
   const items = _children.reduce<React.ReactElement[]>((acc, item, index) => {
     const state =
       active === index ? 'stepProgress' : active > index ? 'stepCompleted' : 'stepInactive';
-    const shouldAllowSelect = state === 'stepCompleted' || allowNextStepsSelect;
-    typeof item.props.allowStepSelect === 'boolean'
-      ? item.props.allowStepSelect
-      : typeof onStepClick === 'function';
+    const defaultAllowSelect = state === 'stepCompleted' || allowNextStepsSelect;
+    const shouldAllowSelect =
+      defaultAllowSelect &&
+      (typeof item.props.allowStepSelect === 'boolean'
+        ? item.props.allowStepSelect
+        : typeof onStepClick === 'function');
 
     acc.push(
       cloneElement(item, {
